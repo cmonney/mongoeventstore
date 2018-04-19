@@ -1,5 +1,6 @@
 ﻿using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
+using MongoEventStore.Core.Tests.Utilities;
 using NUnit.Framework;
 
 namespace MongoEventStore.Core.Tests

@@ -7,7 +7,7 @@ namespace MongoEventStore.Core.Model
     {
         private readonly List<object> _changes = new List<object>();
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public long Commit { get; set; }
         public long Index { get; set; }

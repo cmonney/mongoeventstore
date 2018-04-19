@@ -13,12 +13,14 @@ namespace MongoEventStore.Core.Mappers
             var type = typeName.Substring(0, typeName.LastIndexOf("V", StringComparison.Ordinal));
             var version = int.Parse(typeName.Substring(typeName.LastIndexOf("V", StringComparison.Ordinal) + 1));
             var json = JsonConvert.SerializeObject(objectEvent, Formatting.None, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            var id = (string)objectEvent.GetPropertyValue("Id");
 
             return new DomainEvent
             {
                 Type = type,
                 Version = version,
-                Json = json
+                Json = json,
+                Id = id
             };
         }
 

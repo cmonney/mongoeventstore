@@ -4,7 +4,7 @@ namespace MongoEventStore.Core.Model
 {
     public class DomainEvent
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string AggregateId { get; set; }
 
