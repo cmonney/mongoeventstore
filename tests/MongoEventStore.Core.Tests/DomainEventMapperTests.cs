@@ -1,6 +1,8 @@
-﻿using MongoEventStore.Core.Mappers;
+﻿using System;
+using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
 using MongoEventStore.Core.Tests.Utilities;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace MongoEventStore.Core.Tests
@@ -19,13 +21,16 @@ namespace MongoEventStore.Core.Tests
         [Test]
         public void Mapper_Should_ConvertToDomainEvent()
         {
-            var testEvent = new TestEventV1(){City = "Hemel Hempstead", IsCaptured = false};
+            var id = Guid.NewGuid().ToString();
+            var testEvent = new TestEventV1(){City = "Hemel Hempstead", IsCaptured = false, Id = id};
 
             var result = _mapper.ConvertToDomainEvent(testEvent);
 
+            var expectedJson = JsonConvert.SerializeObject(testEvent);
+
             Assert.That(result.Type, Is.EqualTo("TestEvent"));
             Assert.That(result.Version, Is.EqualTo(1));
-            Assert.That(result.Json, Is.EqualTo(@"{""city"":""Hemel Hempstead"",""isCaptured"":false}"));
+            Assert.That(result.Json, Is.EqualTo(expectedJson));
         }
 
         [Test]
