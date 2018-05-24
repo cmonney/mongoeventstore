@@ -1,4 +1,6 @@
-﻿using MongoEventStore.Core.Model;
+﻿using MongoDB.Bson;
+using MongoEventStore.Core.Mappers;
+using MongoEventStore.Core.Model;
 using Newtonsoft.Json;
 
 namespace MongoEventStore.Core.Tests.Utilities
@@ -12,6 +14,7 @@ namespace MongoEventStore.Core.Tests.Utilities
         public bool IsCaptured { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        [JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId Id { get; set; }
     }
 }

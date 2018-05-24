@@ -14,15 +14,15 @@ namespace MongoEventStore.Core.Tests.Utilities
         {
             foreach (var domainEvent in events)
             {
-                if (!_events.ContainsKey(domainEvent.Id))
+                var key = domainEvent.Id.ToString();
+                if (!_events.ContainsKey(key))
                 {
-                    _events.Add(domainEvent.Id, domainEvent);
+                    _events.Add(key, domainEvent);
                 }
                 else
                 {
-                    _events[domainEvent.Id] = domainEvent;
+                    _events[key] = domainEvent;
                 }
-                
             }
 
             return Task.FromResult(true);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
 
@@ -29,7 +30,7 @@ namespace MongoEventStore.Core.Repository
 
             var aggregate = new TAggregate
             {
-                Id = aggregateId
+                Id = ObjectId.Parse(aggregateId)
             };
 
             foreach (var @event in events)
@@ -54,7 +55,7 @@ namespace MongoEventStore.Core.Repository
                 aggregate.Index += 1;
 
                 var @event = _eventMapper.ConvertToDomainEvent(uncommittedEvent);
-                @event.AggregateId = aggregate.Id;
+                @event.AggregateId = aggregate.Id.ToString();
                 @event.Commit = aggregate.Commit;
                 @event.Index = aggregate.Index;
                 

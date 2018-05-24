@@ -1,4 +1,5 @@
 ﻿using System;
+using MongoDB.Bson;
 using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
 using MongoEventStore.Core.Tests.Utilities;
@@ -21,7 +22,7 @@ namespace MongoEventStore.Core.Tests
         [Test]
         public void Mapper_Should_ConvertToDomainEvent()
         {
-            var id = Guid.NewGuid().ToString();
+            var id = ObjectId.GenerateNewId();
             var testEvent = new TestEventV1(){City = "Hemel Hempstead", IsCaptured = false, Id = id};
 
             var result = _mapper.ConvertToDomainEvent(testEvent);

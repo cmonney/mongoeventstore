@@ -1,7 +1,11 @@
-﻿namespace MongoEventStore.Core.Model
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace MongoEventStore.Core.Model
 {
     public interface IDomainEvent
     {
-        string Id { get; set; }
+        [BsonId]
+        ObjectId Id { get; set; }
     }
-}
+}   

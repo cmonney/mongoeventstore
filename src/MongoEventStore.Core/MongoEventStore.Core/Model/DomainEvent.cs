@@ -1,10 +1,13 @@
 ﻿using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace MongoEventStore.Core.Model
 {
     public class DomainEvent
     {
-        public string Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
         public string AggregateId { get; set; }
 

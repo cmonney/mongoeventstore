@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace MongoEventStore.Core.Model
 {
@@ -7,7 +9,8 @@ namespace MongoEventStore.Core.Model
     {
         private readonly List<object> _changes = new List<object>();
 
-        public string Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
         public long Commit { get; set; }
         public long Index { get; set; }

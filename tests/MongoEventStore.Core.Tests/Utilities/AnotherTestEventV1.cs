@@ -1,4 +1,6 @@
 ﻿using System;
+using MongoDB.Bson;
+using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
 using Newtonsoft.Json;
 
@@ -15,6 +17,8 @@ namespace MongoEventStore.Core.Tests.Utilities
         [JsonProperty(PropertyName = "isvalid")]
         public bool IsValid { get; set; }
 
-        public string Id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        [JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId Id { get; set; }
     }
 }

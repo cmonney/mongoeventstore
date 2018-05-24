@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoEventStore.Core.Mappers;
 using MongoEventStore.Core.Model;
 using MongoEventStore.Core.Repository;
@@ -13,7 +14,7 @@ namespace MongoEventStore.Core.Tests
     [TestFixture]
     public class AggregateRepositoryTests
     {
-        private readonly string _aggregateId = Guid.NewGuid().ToString();
+        private readonly string _aggregateId = ObjectId.GenerateNewId().ToString();
         private IEventStore _eventStore;
         private IDomainEventMapper _domainEventMapper;
         private IAggregateRepository<TestAggregateRoot> _aggregateRepository;
@@ -41,7 +42,7 @@ namespace MongoEventStore.Core.Tests
             {
                 new DomainEvent()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = ObjectId.GenerateNewId(),
                     AggregateId = _aggregateId,
                     Commit = 1,
                     Index = 1,
@@ -51,7 +52,7 @@ namespace MongoEventStore.Core.Tests
                 },
                 new DomainEvent()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = ObjectId.GenerateNewId(),
                     AggregateId = _aggregateId,
                     Commit = 2,
                     Index = 2,
@@ -61,7 +62,7 @@ namespace MongoEventStore.Core.Tests
                 },
                 new DomainEvent()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = ObjectId.GenerateNewId(),
                     AggregateId = "some-fake-id",
                     Commit = 3,
                     Index = 3,
@@ -83,10 +84,10 @@ namespace MongoEventStore.Core.Tests
         [Test]
         public async Task SaveAggregateAsync_save_new_aggregate()
         {
-            var aggregate = new TestAggregateRoot(){Id = _aggregateId};
+            var aggregate = new TestAggregateRoot(){Id = ObjectId.Parse(_aggregateId) };
             aggregate.ApplyChange(new AnotherTestEventV1()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = ObjectId.GenerateNewId(),
                 FirstName = "Joe",
                 SurName = "Bloggs",
                 IsValid = true
@@ -108,7 +109,7 @@ namespace MongoEventStore.Core.Tests
         [Test]
         public async Task SaveAggregateAsync_saves_all_uncommitted_events()
         {
-            var id = Guid.NewGuid().ToString();
+            var id = ObjectId.GenerateNewId();
 
             await _eventStore.SaveDomainEventsAsync(new List<DomainEvent>()
             {
@@ -127,7 +128,7 @@ namespace MongoEventStore.Core.Tests
             var aggregate = await _aggregateRepository.GetAggregateAsync(_aggregateId);
             aggregate.ApplyChange(new AnotherTestEventV1()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = ObjectId.GenerateNewId(),
                 FirstName = "Joe",
                 SurName = "Bloggs",
                 IsValid = true

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MongoDB.Bson;
 using MongoEventStore.Core.Model;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace MongoEventStore.Core.Mappers
             var type = typeName.Substring(0, typeName.LastIndexOf("V", StringComparison.Ordinal));
             var version = int.Parse(typeName.Substring(typeName.LastIndexOf("V", StringComparison.Ordinal) + 1));
             var json = JsonConvert.SerializeObject(objectEvent, Formatting.None, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-            var id = (string)objectEvent.GetPropertyValue("Id");
+            var id = (ObjectId)objectEvent.GetPropertyValue("Id");
 
             return new DomainEvent
             {
